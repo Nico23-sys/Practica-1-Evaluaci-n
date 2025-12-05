@@ -39,7 +39,7 @@ public class LoginController implements Initializable {
 
             Usuario usuario = usuariodao.getUsuarioPorUsername(user);
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("edu/nob/liceo/ejerevaluacionnob/recursos/usuarios-view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/nob/liceo/ejerevaluacionnob/recursos/usuarios-view.fxml"));
 
             Parent root = loader.load();
 

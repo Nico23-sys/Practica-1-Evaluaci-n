@@ -52,7 +52,6 @@ public class UsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     listaUsuariosMaster = FXCollections.observableArrayList();
-    listaFiltradaUsuarios = new FilteredList<>(listaUsuariosMaster, p -> true);
 
     listaUsuariosMaster.addAll(usuarioDAO.getAllUsuarios());
 
@@ -61,7 +60,7 @@ public class UsuarioController implements Initializable {
         tApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
         tNickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         tFechaNacimiento.setCellValueFactory(new PropertyValueFactory<>("fecha_nacimiento"));
-        table.setItems(listaFiltradaUsuarios);
+        table.setItems(listaUsuariosMaster);
 
 
         debounce = new Timeline(new KeyFrame(Duration.millis(DEBOUNCE_DELAY_MS), e -> {
@@ -81,10 +80,16 @@ public class UsuarioController implements Initializable {
 
     private void buscarUsuario(String terminoBusq) {
         listaUsuariosMaster.clear();
+
+        List<Usuario> resultadoBusqueda;
+
         if (terminoBusq != null && !terminoBusq.trim().isEmpty()) {
-            List<Usuario> resultadoBusqueda= usuarioDAO.buscarUsuario(terminoBusq);
-            listaUsuarios.addAll(resultadoBusqueda);
+            resultadoBusqueda = usuarioDAO.buscarUsuario(terminoBusq);
+        } else {
+            resultadoBusqueda = usuarioDAO.getAllUsuarios();
         }
+
+        listaUsuariosMaster.addAll(resultadoBusqueda);
     }
 
     public void setUsuarioLogueado(Usuario usuario){
