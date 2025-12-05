@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="edu.nob.liceo.ejerevaluacionnob.controllers.MainController"
+            fx:id="mainContentPane"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <top>
+        <MenuBar>
+            <Menu text="Navegación">
+                <MenuItem text="Ver Usuarios" onAction="#mostrarUsuarios"/>
+            </Menu>
+            
+            <Menu text="Archivo">
+                <MenuItem text="Cerrar Sesión" onAction="#handleLogout"/>
+            </Menu>
+
+        </MenuBar>
+    </top>
+
+    <left>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <Button text="Ver todos" onAction="#mostrarUsuarios" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <center>
+    </center>
+
+</BorderPane>

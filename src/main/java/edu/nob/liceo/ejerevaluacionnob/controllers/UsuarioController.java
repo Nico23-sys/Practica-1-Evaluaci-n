@@ -1,6 +1,6 @@
 package edu.nob.liceo.ejerevaluacionnob.controllers;
 
-import edu.nob.liceo.ejerevaluacionnob.dao.UsuarioDAO;
+
 import edu.nob.liceo.ejerevaluacionnob.dao.UsuarioDAOImpl;
 import edu.nob.liceo.ejerevaluacionnob.model.Usuario;
 import javafx.animation.KeyFrame;
@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
+import navegacion.SessionManager;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -46,11 +47,18 @@ public class UsuarioController implements Initializable {
 
     private static final int DEBOUNCE_DELAY_MS = 500;
 
-    private Usuario usuario;
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.usuarioLogueado = SessionManager.getInstance().getUsuarioactual();
+
+        if(this.usuarioLogueado==null){
+            System.err.println("Usuario no encontrado");
+        }
+
     listaUsuariosMaster = FXCollections.observableArrayList();
 
     listaUsuariosMaster.addAll(usuarioDAO.getAllUsuarios());
@@ -92,8 +100,7 @@ public class UsuarioController implements Initializable {
         listaUsuariosMaster.addAll(resultadoBusqueda);
     }
 
-    public void setUsuarioLogueado(Usuario usuario){
-        this.usuarioLogueado=usuario;
+
     }
 
-}
+

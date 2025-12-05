@@ -4,6 +4,7 @@ module edu.nob.liceo.ejerevaluacionnob {
     requires javafx.base;
     requires javafx.graphics;
     requires java.sql;
+    requires java.desktop;
 
     opens edu.nob.liceo.ejerevaluacionnob to javafx.fxml;
     exports edu.nob.liceo.ejerevaluacionnob;

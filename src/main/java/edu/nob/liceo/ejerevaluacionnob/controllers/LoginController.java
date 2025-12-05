@@ -13,10 +13,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import navegacion.AppView;
+import navegacion.SessionManager;
 
 import java.io.IOException;
 import java.net.URL;
 
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -39,18 +42,19 @@ public class LoginController implements Initializable {
 
             Usuario usuario = usuariodao.getUsuarioPorUsername(user);
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/nob/liceo/ejerevaluacionnob/recursos/usuarios-view.fxml"));
+            SessionManager.getInstance().setUsuarioactual(usuario);
 
-            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(AppView.MAIN.getFxmlFile())));
 
-
-                UsuarioController usuariosController = loader.getController();
-                usuariosController.setUsuarioLogueado(usuario);
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
+            Scene scene= new Scene(root);
             stage.setScene(scene);
+            stage.setTitle("Golf control");
             stage.show();
+
+
+
+
         } else {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
