@@ -70,6 +70,8 @@ public class UsuarioController implements Initializable {
         tFechaNacimiento.setCellValueFactory(new PropertyValueFactory<>("fecha_nacimiento"));
         table.setItems(listaUsuariosMaster);
 
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);//usado para redistribuir el espacio automaticamnte
+
 
         debounce = new Timeline(new KeyFrame(Duration.millis(DEBOUNCE_DELAY_MS), e -> {
             buscarUsuario(tfBuscar.getText());

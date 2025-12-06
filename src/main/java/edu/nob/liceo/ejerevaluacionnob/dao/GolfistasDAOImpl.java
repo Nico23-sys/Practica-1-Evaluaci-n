@@ -52,7 +52,7 @@ public class GolfistasDAOImpl implements GolfistasDAO {
 
     @Override
     public void actuGolfista(Golfistas golfistaSeleccionado) {
-        String sql= "UPDATE golfistas SET nombre=?, apellido=?, edad=?, pais=?, tipopalo=?"+ "WHERE id_golfista=?";
+        String sql= "UPDATE golfistas SET nombre=?, apellido=?, edad=?, pais=?, tipopalo=? WHERE id_golfista=?";
 
         try(Connection conn= DataBaseConnection.getConnection()){
             PreparedStatement ps= conn.prepareStatement(sql);
@@ -78,5 +78,43 @@ public class GolfistasDAOImpl implements GolfistasDAO {
         }catch(SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Golfistas> filtrarGolfistas(String termino) {
+        List<Golfistas> listaGolfistas = new ArrayList<>();
+
+
+        String sql = "SELECT * FROM golfistas WHERE nombre LIKE ? OR apellido LIKE ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+
+            String terminoBusq = "%" + termino.toLowerCase() + "%";
+
+            pstmt.setString(1, terminoBusq);
+            pstmt.setString(2, terminoBusq);
+
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+
+                    Golfistas golfista = new Golfistas(
+                            rs.getInt("id_golfista"),
+                            rs.getString("nombre"),
+                            rs.getString("apellido"),
+                            rs.getInt("edad"),
+                            rs.getString("pais"),
+                            rs.getString("tipopalo")
+                    );
+
+                    listaGolfistas.add(golfista);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaGolfistas;
     }
 }

@@ -14,4 +14,6 @@ public interface GolfistasDAO {
 
 
     void deleteGolfista(int idGolfista);
+
+    List<Golfistas> filtrarGolfistas(String terminoBusq);
 }

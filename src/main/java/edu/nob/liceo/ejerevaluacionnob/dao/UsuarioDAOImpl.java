@@ -89,16 +89,16 @@ try(Connection c= DataBaseConnection.getConnection()) {
     @Override
     public List<Usuario> buscarUsuario(String termino) {
         List<Usuario> usuarios = new ArrayList<>();
-        // Buscamos si el texto coincide con nombre, apellido O nickname
+
         String sql = "SELECT * FROM usuarios WHERE nombre LIKE ? OR apellido LIKE ? OR nickname LIKE ?";
 
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             String terminoBusq="%"+termino.toLowerCase()+"%";
-            pstmt.setString(1, terminoBusq); // Para nombre
-            pstmt.setString(2, terminoBusq); // Para apellido
-            pstmt.setString(3, terminoBusq); // Para nickname
+            pstmt.setString(1, terminoBusq);
+            pstmt.setString(2, terminoBusq);
+            pstmt.setString(3, terminoBusq);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -115,7 +115,7 @@ try(Connection c= DataBaseConnection.getConnection()) {
 
 
 
-                    // Añadimos a la lista
+
                     usuarios.add(usuario);
                 }
             }

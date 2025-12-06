@@ -16,7 +16,7 @@
                     <Font name="System Bold" size="14.0" />
                 </font>
             </Label>
-            <TextField fx:id="tfBuscar" prefHeight="136.0" prefWidth="415.0" promptText="Buscar usuarios" />
+            <TextField fx:id="tfBuscar" prefHeight="136.0" prefWidth="415.0" promptText="Buscar por nombre, apellido o nickname" />
         </HBox>
     </top>
     <center>

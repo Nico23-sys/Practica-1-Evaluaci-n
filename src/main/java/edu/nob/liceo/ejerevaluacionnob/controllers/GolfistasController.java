@@ -4,12 +4,16 @@ import edu.nob.liceo.ejerevaluacionnob.DatosPais;
 import edu.nob.liceo.ejerevaluacionnob.dao.GolfistasDAO;
 import edu.nob.liceo.ejerevaluacionnob.dao.GolfistasDAOImpl;
 import edu.nob.liceo.ejerevaluacionnob.model.Golfistas;
+import edu.nob.liceo.ejerevaluacionnob.model.Usuario;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.List;
@@ -43,11 +47,17 @@ public class GolfistasController implements Initializable {
     @FXML    private Button btnEliminar;
     @FXML    private Button btnLimpiar;
 
+    @FXML private TextField tfBuscar;
+
 
 
     private ObservableList<Golfistas> listaGolfistas;
+    private ObservableList<Golfistas> listaGolfistasMaster;
 
     private GolfistasDAO golfistasDAO;
+
+    private Timeline debounce;
+    private static final int DEBOUNCE_DELAY_MS = 500;
 
     private Golfistas golfistaSeleccionado;
 
@@ -60,6 +70,7 @@ public class GolfistasController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listaGolfistas = FXCollections.observableArrayList();
+        listaGolfistasMaster = FXCollections.observableArrayList();
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id_golfista"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -71,6 +82,9 @@ public class GolfistasController implements Initializable {
         cbPais.setItems(FXCollections.observableArrayList(DatosPais.listapaises));
         cbTipoPalo.getItems().addAll("Driver", "Madera", "Hibrido", "Hierro", "Wedge", "Putter");
 
+
+
+        lblValorEdad.setText(String.valueOf((int) sliderEdad.getValue()));
         sliderEdad.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblValorEdad.setText(String.valueOf(newValue.intValue()));
         });
@@ -78,6 +92,7 @@ public class GolfistasController implements Initializable {
         cargarGolfistasdelaBD();
 
         tablaGolfistas.setItems(listaGolfistas);
+        tablaGolfistas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         tablaGolfistas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -85,6 +100,31 @@ public class GolfistasController implements Initializable {
                 rellenarFormulario(golfistaSeleccionado);
             }
         });
+
+        debounce = new Timeline(new KeyFrame(Duration.millis(DEBOUNCE_DELAY_MS), e -> {
+            filtrarGolfistas(tfBuscar.getText());
+        }));
+        debounce.setCycleCount(1);
+
+        // Listener al escribir en el TextField
+        tfBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
+            debounce.stop();
+            debounce.playFromStart();
+        });
+    }
+
+    private void filtrarGolfistas(String terminoBusq) {
+        listaGolfistas.clear();
+
+        List<Golfistas> resultadoBusqueda;
+
+        if (terminoBusq != null && !terminoBusq.trim().isEmpty()) {
+            resultadoBusqueda = golfistasDAO.filtrarGolfistas(terminoBusq);
+        } else {
+            resultadoBusqueda = golfistasDAO.getAllGolfistas();
+        }
+
+        listaGolfistas.addAll(resultadoBusqueda);
     }
 
     public void handleAnadir(){
@@ -102,7 +142,7 @@ public class GolfistasController implements Initializable {
     }
 
     public void handleModificar(){
-        if(golfistaSeleccionado != null){
+        if(golfistaSeleccionado == null){
             mostrarAlerta(Alert.AlertType.WARNING,"Ningún golfista seleccionado");
 
         return;
@@ -126,8 +166,9 @@ public class GolfistasController implements Initializable {
     }
 
     public void handleEliminar(){
-        if(golfistaSeleccionado != null){
+        if(golfistaSeleccionado == null){
             mostrarAlerta(Alert.AlertType.WARNING,"Ningún golfista seleccionado");
+       return;
         }
 
         Alert confirmacion= new Alert(Alert.AlertType.CONFIRMATION);
@@ -174,16 +215,24 @@ public class GolfistasController implements Initializable {
 
     private void cargarGolfistasdelaBD() {
         listaGolfistas.clear();
-        List<Golfistas> golfistasBD= golfistasDAO.getAllGolfistas();
-        listaGolfistas.addAll(golfistasBD);
+        try {
+            List<Golfistas> golfistasBD = golfistasDAO.getAllGolfistas();
+            if (golfistasBD != null) {
+                listaGolfistas.addAll(golfistasBD);
+                tablaGolfistas.refresh();
+            }
+        } catch (Exception e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al cargar datos: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 
-    private void mostrarAlerta(Alert.AlertType type, String titulo){
+    private void mostrarAlerta(Alert.AlertType type, String mensaje){
         Alert alerta = new Alert(type);
-        alerta.setTitle(titulo);
+        alerta.setTitle("Información");
         alerta.setHeaderText(null);
-        alerta.setContentText(null);
+        alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
 
