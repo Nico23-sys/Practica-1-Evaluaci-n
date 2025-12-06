@@ -8,4 +8,6 @@ public interface GolfistasDAO {
     List<Golfistas> getAllGolfistas();
 
     void addGolfistas(Golfistas newgolfista);
+
+    void actuGolfista(Golfistas golfistaSeleccionado);
 }

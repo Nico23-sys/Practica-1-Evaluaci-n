@@ -49,4 +49,22 @@ public class GolfistasDAOImpl implements GolfistasDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void actuGolfista(Golfistas golfistaSeleccionado) {
+        String sql= "UPDATE jugadores SET nombre=?, apellido=?, edad=?, pais=?, tipopalo=?"+ "WHERE id_golfista=?";
+
+        try(Connection conn= DataBaseConnection.getConnection()){
+            PreparedStatement ps= conn.prepareStatement(sql);
+            ps.setString(1, golfistaSeleccionado.getNombre());
+            ps.setString(2, golfistaSeleccionado.getApellido());
+            ps.setInt(3, golfistaSeleccionado.getEdad());
+            ps.setString(4, golfistaSeleccionado.getPais());
+            ps.setString(5, golfistaSeleccionado.getTipoPalo());
+            ps.setInt(6, golfistaSeleccionado.getId_golfista());
+            ps.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -27,7 +27,7 @@ public class GolfistasController implements Initializable {
     @FXML    private TableColumn<Golfistas, String> colTipoPalo;
 
 
-    @FXML    private Label lblJugadorId;
+    @FXML    private Label GolfistaId;
     @FXML    private TextField tfNombre;
     @FXML    private TextField tfApellido;
     @FXML    private Slider sliderEdad;
@@ -94,13 +94,35 @@ public class GolfistasController implements Initializable {
             golfistasDAO.addGolfistas(newgolfista);
             cargarGolfistasdelaBD();
             handleLimpiar();
-            mostrarAlerta(Alert.AlertType.INFORMATION,"Jugador Añadido");
+            mostrarAlerta(Alert.AlertType.INFORMATION,"Golfista Añadido");
         }else{
             mostrarAlerta(Alert.AlertType.WARNING,"Datos incompletos");
         }
     }
 
-  
+    public void handleModificar(){
+        if(golfistaSeleccionado != null){
+            mostrarAlerta(Alert.AlertType.WARNING,"Ningún golfista seleccionado");
+
+        return;
+        }
+
+        if(camposValidos()){
+            golfistaSeleccionado.setNombre(tfNombre.getText());
+            golfistaSeleccionado.setApellido(tfApellido.getText());
+            golfistaSeleccionado.setEdad((int) sliderEdad.getValue());
+            golfistaSeleccionado.setPais(cbPais.getValue());
+            golfistaSeleccionado.setTipoPalo(cbTipoPalo.getValue());
+
+            golfistasDAO.actuGolfista(golfistaSeleccionado);
+            cargarGolfistasdelaBD();
+            handleLimpiar();
+            mostrarAlerta(Alert.AlertType.INFORMATION,"Golfista Modificado");
+        }else {
+            mostrarAlerta(Alert.AlertType.WARNING, "Datos Incompletos, rellena los campos del formulario");
+
+        }
+    }
 
     private boolean camposValidos() {
         return !tfNombre.getText().isEmpty() &&
@@ -110,7 +132,7 @@ public class GolfistasController implements Initializable {
     }
 
     private void rellenarFormulario(Golfistas golfista) {
-        lblJugadorId.setText(String.valueOf(golfista.getId_golfista()));
+        GolfistaId.setText(String.valueOf(golfista.getId_golfista()));
         tfNombre.setText(golfista.getNombre());
         tfApellido.setText(golfista.getApellido());
         sliderEdad.setValue(golfista.getEdad());
