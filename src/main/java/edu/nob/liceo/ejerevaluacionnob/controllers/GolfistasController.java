@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class GolfistasController implements Initializable {
@@ -121,6 +122,25 @@ public class GolfistasController implements Initializable {
         }else {
             mostrarAlerta(Alert.AlertType.WARNING, "Datos Incompletos, rellena los campos del formulario");
 
+        }
+    }
+
+    public void handleEliminar(){
+        if(golfistaSeleccionado != null){
+            mostrarAlerta(Alert.AlertType.WARNING,"Ningún golfista seleccionado");
+        }
+
+        Alert confirmacion= new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar Eliminación");
+        confirmacion.setHeaderText("Seguro que quieres eliminar a: " + golfistaSeleccionado.getNombre()+" ?");
+        confirmacion.setContentText("Esta accion no se puede deshacer");
+
+        Optional<ButtonType> resultado= confirmacion.showAndWait();
+        if (resultado.isPresent()&& resultado.get()==ButtonType.OK){
+            golfistasDAO.deleteGolfista(golfistaSeleccionado.getId_golfista());
+            cargarGolfistasdelaBD();
+            handleLimpiar();
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Golfista eliminado");
         }
     }
 

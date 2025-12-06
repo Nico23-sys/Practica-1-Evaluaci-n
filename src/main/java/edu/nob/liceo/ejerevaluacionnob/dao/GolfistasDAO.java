@@ -10,4 +10,8 @@ public interface GolfistasDAO {
     void addGolfistas(Golfistas newgolfista);
 
     void actuGolfista(Golfistas golfistaSeleccionado);
+
+
+
+    void deleteGolfista(int idGolfista);
 }

@@ -52,7 +52,7 @@ public class GolfistasDAOImpl implements GolfistasDAO {
 
     @Override
     public void actuGolfista(Golfistas golfistaSeleccionado) {
-        String sql= "UPDATE jugadores SET nombre=?, apellido=?, edad=?, pais=?, tipopalo=?"+ "WHERE id_golfista=?";
+        String sql= "UPDATE golfistas SET nombre=?, apellido=?, edad=?, pais=?, tipopalo=?"+ "WHERE id_golfista=?";
 
         try(Connection conn= DataBaseConnection.getConnection()){
             PreparedStatement ps= conn.prepareStatement(sql);
@@ -62,6 +62,18 @@ public class GolfistasDAOImpl implements GolfistasDAO {
             ps.setString(4, golfistaSeleccionado.getPais());
             ps.setString(5, golfistaSeleccionado.getTipoPalo());
             ps.setInt(6, golfistaSeleccionado.getId_golfista());
+            ps.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteGolfista(int idGolfista) {
+        String sql= "DELETE FROM golfistas WHERE id_golfista=?";
+        try(Connection conn= DataBaseConnection.getConnection()){
+            PreparedStatement ps= conn.prepareStatement(sql);
+            ps.setInt(1, idGolfista);
             ps.executeUpdate();
         }catch(SQLException e) {
             e.printStackTrace();
