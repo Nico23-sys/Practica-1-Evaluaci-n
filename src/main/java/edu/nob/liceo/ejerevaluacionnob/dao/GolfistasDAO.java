@@ -4,7 +4,8 @@ import edu.nob.liceo.ejerevaluacionnob.model.Golfistas;
 
 import java.util.List;
 
-public class GolfistasDAO {
-    public List<Golfistas> getAllGolfistas() {
-    }
+public interface GolfistasDAO {
+    List<Golfistas> getAllGolfistas();
+
+    void addGolfistas(Golfistas newgolfista);
 }

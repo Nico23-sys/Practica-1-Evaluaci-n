@@ -19,6 +19,14 @@ public class Golfistas {
         this.tipoPalo = tipoPalo;
     }
 
+    public Golfistas( String nombre, String apellido, int edad , String pais, String tipoPalo) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.pais = pais;
+        this.tipoPalo = tipoPalo;
+    }
+
     public int getEdad() {
         return edad;
     }

@@ -2,6 +2,7 @@ package edu.nob.liceo.ejerevaluacionnob.controllers;
 
 import edu.nob.liceo.ejerevaluacionnob.DatosPais;
 import edu.nob.liceo.ejerevaluacionnob.dao.GolfistasDAO;
+import edu.nob.liceo.ejerevaluacionnob.dao.GolfistasDAOImpl;
 import edu.nob.liceo.ejerevaluacionnob.model.Golfistas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +31,7 @@ public class GolfistasController implements Initializable {
     @FXML    private TextField tfNombre;
     @FXML    private TextField tfApellido;
     @FXML    private Slider sliderEdad;
-    @FXML    private Label lblValorEdad; // El numerito al lado del slider
+    @FXML    private Label lblValorEdad;
 
     @FXML    private ComboBox<String> cbPais;
     @FXML    private ComboBox<String> cbTipoPalo;
@@ -41,11 +42,17 @@ public class GolfistasController implements Initializable {
     @FXML    private Button btnEliminar;
     @FXML    private Button btnLimpiar;
 
-    public GolfistasController() {}
+
 
     private ObservableList<Golfistas> listaGolfistas;
 
     private GolfistasDAO golfistasDAO;
+
+    private Golfistas golfistaSeleccionado;
+
+    public GolfistasController() {
+        this.golfistasDAO = new GolfistasDAOImpl();
+    }
 
 
 
@@ -53,7 +60,7 @@ public class GolfistasController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listaGolfistas = FXCollections.observableArrayList();
 
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("id_golfista"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
         colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
@@ -63,9 +70,53 @@ public class GolfistasController implements Initializable {
         cbPais.setItems(FXCollections.observableArrayList(DatosPais.listapaises));
         cbTipoPalo.getItems().addAll("Driver", "Madera", "Hibrido", "Hierro", "Wedge", "Putter");
 
+        sliderEdad.valueProperty().addListener((observable, oldValue, newValue) -> {
+            lblValorEdad.setText(String.valueOf(newValue.intValue()));
+        });
 
         cargarGolfistasdelaBD();
 
+        tablaGolfistas.setItems(listaGolfistas);
+
+        tablaGolfistas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                golfistaSeleccionado = newValue;
+                rellenarFormulario(golfistaSeleccionado);
+            }
+        });
+    }
+
+    public void handleAnadir(){
+        if(camposValidos()){
+            Golfistas newgolfista = new Golfistas(tfNombre.getText(), tfApellido.getText(),
+                    (int) sliderEdad.getValue(), cbPais.getValue(), cbTipoPalo.getValue());
+
+            golfistasDAO.addGolfistas(newgolfista);
+            cargarGolfistasdelaBD();
+            handleLimpiar();
+            mostrarAlerta(Alert.AlertType.INFORMATION,"Jugador Añadido");
+        }else{
+            mostrarAlerta(Alert.AlertType.WARNING,"Datos incompletos");
+        }
+    }
+
+  
+
+    private boolean camposValidos() {
+        return !tfNombre.getText().isEmpty() &&
+                !tfApellido.getText().isEmpty() &&
+                cbPais.getValue() != null &&
+                cbTipoPalo.getValue() != null;
+    }
+
+    private void rellenarFormulario(Golfistas golfista) {
+        lblJugadorId.setText(String.valueOf(golfista.getId_golfista()));
+        tfNombre.setText(golfista.getNombre());
+        tfApellido.setText(golfista.getApellido());
+        sliderEdad.setValue(golfista.getEdad());
+        lblValorEdad.setText(String.valueOf(golfista.getEdad()));
+        cbPais.setValue(golfista.getPais());
+        cbTipoPalo.setValue(golfista.getTipoPalo());
     }
 
     private void cargarGolfistasdelaBD() {
