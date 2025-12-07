@@ -106,7 +106,7 @@ public class GolfistasController implements Initializable {
         }));
         debounce.setCycleCount(1);
 
-        // Listener al escribir en el TextField
+
         tfBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
             debounce.stop();
             debounce.playFromStart();
