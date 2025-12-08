@@ -42,7 +42,7 @@ public class TorneoDAOImpl implements TorneoDAO {
         List<Torneo> listaTorneos = new ArrayList<>();
 
 
-        String sql = "SELECT * FROM torneos WHERE nombre LIKE ?";
+        String sql = "SELECT * FROM torneo WHERE nombre LIKE ?";
 
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -76,7 +76,7 @@ public class TorneoDAOImpl implements TorneoDAO {
 
     @Override
     public void addTorneos(Torneo newTorneo) {
-        String sql= "INSERT INTO torneos(nombre, anho, modalidad, pais) VALUES (?, ?, ?, ?)";
+        String sql= "INSERT INTO torneo(nombre, anho, modalidad, pais) VALUES (?, ?, ?, ?)";
 
         try(Connection conn= DataBaseConnection.getConnection()){
             PreparedStatement ps= conn.prepareStatement(sql);
@@ -92,15 +92,17 @@ public class TorneoDAOImpl implements TorneoDAO {
 
     @Override
     public void actuTorneos(Torneo torneoSeleccionado) {
-        String sql= "UPDATE torneos SET nombre=?, anho=?, modalidad=?, pais=? WHERE id_torneo=?";
+        String sql = "UPDATE torneo SET nombre=?, anho=?, modalidad=?, pais=? WHERE id_torneo=?";
 
-        try(Connection conn= DataBaseConnection.getConnection()){
-            PreparedStatement ps= conn.prepareStatement(sql);
-            ps.setInt(1, torneoSeleccionado.getId_torneo());
-            ps.setString(2, torneoSeleccionado.getNombre());
-            ps.setInt(3, torneoSeleccionado.getAnho());
-            ps.setString(4, torneoSeleccionado.getModalidad());
-            ps.setString(5, torneoSeleccionado.getPais());;
+        try (Connection conn = DataBaseConnection.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            // Parámetros en orden:
+            ps.setString(1, torneoSeleccionado.getNombre());
+            ps.setInt(2, torneoSeleccionado.getAnho());
+            ps.setString(3, torneoSeleccionado.getModalidad());
+            ps.setString(4, torneoSeleccionado.getPais());
+            ps.setInt(5, torneoSeleccionado.getId_torneo());
 
             ps.executeUpdate();
         }catch(SQLException e) {
@@ -110,7 +112,7 @@ public class TorneoDAOImpl implements TorneoDAO {
 
     @Override
     public void eliminarTorneo(int idTorneo) {
-        String sql= "DELETE FROM torneos WHERE id_torneo=?";
+        String sql= "DELETE FROM torneo WHERE id_torneo=?";
         try(Connection conn= DataBaseConnection.getConnection()){
             PreparedStatement ps= conn.prepareStatement(sql);
             ps.setInt(1, idTorneo);

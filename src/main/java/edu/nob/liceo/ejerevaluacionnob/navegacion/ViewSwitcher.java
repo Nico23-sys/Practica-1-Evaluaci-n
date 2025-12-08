@@ -16,7 +16,7 @@ public class ViewSwitcher {
 
     public static void switchView(AppView view) {
         if (mainContentPane == null) {
-            System.err.println("Error: contennido no inicializado.");
+            System.err.println("Error: contenido no inicializado.");
             return;
         }
 

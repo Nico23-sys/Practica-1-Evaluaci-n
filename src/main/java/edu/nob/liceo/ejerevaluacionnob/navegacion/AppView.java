@@ -4,7 +4,8 @@ public enum AppView {
         LOGIN("/edu/nob/liceo/ejerevaluacionnob/hello-view.fxml"),
         MAIN("/edu/nob/liceo/ejerevaluacionnob/recursos/mainView.fxml"),
         USUARIOS("/edu/nob/liceo/ejerevaluacionnob/recursos/usuarios-view.fxml"),
-        GOLFISTAS("/edu/nob/liceo/ejerevaluacionnob/recursos/golfistasview.fxml");
+        GOLFISTAS("/edu/nob/liceo/ejerevaluacionnob/recursos/golfistasview.fxml"),
+        TORNEOS("/edu/nob/liceo/ejerevaluacionnob/recursos/torneosview.fxml");
         private final String fxmlFile;
 
         AppView(String fxmlFile) {

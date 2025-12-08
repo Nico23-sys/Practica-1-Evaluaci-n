@@ -34,6 +34,11 @@ public class MainController {
     }
 
     @FXML
+    private void mostrarTorneos() {
+        ViewSwitcher.switchView(AppView.TORNEOS);
+    }
+
+    @FXML
     private void handleLogout() {
         SessionManager.getInstance().logout();
         System.exit(0);
