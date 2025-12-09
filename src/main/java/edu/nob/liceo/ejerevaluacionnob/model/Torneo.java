@@ -63,4 +63,16 @@ public class Torneo {
 
 
     private String pais;
+
+    public String getEstado() {
+        int anhoActual = java.time.LocalDate.now().getYear();
+
+        if (this.anho < anhoActual) {
+            return "Finalizado";
+        } else if (this.anho == anhoActual) {
+            return "Temporada Actual";
+        } else {
+            return "Próximamente";
+        }
+    }
 }

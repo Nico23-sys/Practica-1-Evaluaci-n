@@ -36,6 +36,7 @@ public class TorneosController implements Initializable {
     @FXML private TextField tfAnho;
     @FXML private ComboBox<String> cbModalidad;
     @FXML private ComboBox<String> cbPais;
+    @FXML private TableColumn<Torneo, String> colEstado;
 
 
     private ObservableList<Torneo> listaTorneos;
@@ -67,6 +68,7 @@ public class TorneosController implements Initializable {
 
         cbModalidad.getItems().addAll("Stroke Play", "Match Play", "Stableford");
         cbPais.setItems(FXCollections.observableArrayList(DatosPais.listapaises));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
         cargarTorneosBD();
 
