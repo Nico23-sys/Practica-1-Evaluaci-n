@@ -3,12 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="edu.nob.liceo.ejerevaluacionnob.controllers.MainController"
             fx:id="mainContentPane"
             style="-fx-padding: 0;"
-            prefHeight="600.0" prefWidth="800.0">
+            prefHeight="600.0" prefWidth="800.0"
+            stylesheets="@estilos/estilos.css">
 
     <top>
         <MenuBar>
@@ -24,7 +25,6 @@
             <Menu text="Usuarios">
                 <MenuItem text="Ver Usuarios" onAction="#mostrarUsuarios"/>
             </Menu>
-
 
             <Menu text="Sesión">
                 <MenuItem text="Cerrar Sesión" onAction="#handleLogout"/>
