@@ -189,3 +189,59 @@
     -fx-border-color: #000000;
 }
 
+
+
+.login-root {
+    -fx-background-image: url("../icono/imagenlogin.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+.login-card {
+    /
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);
+}
+
+.login-title {
+    -fx-text-fill: white;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.login-label {
+    -fx-text-fill: #eeeeee;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.login-card .text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 5;
+    -fx-border-width: 0;
+}
+
+.login-card .text-field:focused {
+    -fx-background-color: #b6b5b5;
+
+}
+
+.login-button {
+    -fx-background-color: #ff4444;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-border-color: transparent;
+}
+
+.login-button:hover {
+    -fx-background-color: #cc0000;
+}
+
