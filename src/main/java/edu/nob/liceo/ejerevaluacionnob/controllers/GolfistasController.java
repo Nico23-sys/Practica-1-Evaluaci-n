@@ -33,6 +33,7 @@ public class GolfistasController implements Initializable {
     @FXML    private TableColumn<Golfistas, Integer> colEdad;
     @FXML    private TableColumn<Golfistas, String> colPais;
     @FXML    private TableColumn<Golfistas, String> colTipoPalo;
+    @FXML private TableColumn<Golfistas, String> colCategoria;
 
 
     @FXML    private Label GolfistaId;
@@ -83,6 +84,7 @@ public class GolfistasController implements Initializable {
         colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
         colPais.setCellValueFactory(new PropertyValueFactory<>("pais"));
         colTipoPalo.setCellValueFactory(new PropertyValueFactory<>("tipoPalo"));
+        colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
 
         cbPais.setItems(FXCollections.observableArrayList(DatosPais.listapaises));
         cbTipoPalo.getItems().addAll("Driver", "Madera", "Hibrido", "Hierro", "Wedge", "Putter");

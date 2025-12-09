@@ -79,5 +79,13 @@ public class Golfistas {
         this.tipoPalo = tipoPalo;
     }
 
-
+    public String getCategoria() {
+        if (this.edad <= 20) {
+            return "Junior";
+        } else if (this.edad >= 50) {
+            return "Veterano";
+        } else {
+            return "Senior";
+        }
+    }
 }

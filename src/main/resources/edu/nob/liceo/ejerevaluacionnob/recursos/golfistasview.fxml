@@ -27,6 +27,7 @@
             <TableColumn fx:id="colEdad" prefWidth="60.0" text="Edad" />
             <TableColumn fx:id="colPais" prefWidth="120.0" text="País" />
             <TableColumn fx:id="colTipoPalo" prefWidth="100.0" text="Tipo Palo" />
+            <TableColumn fx:id="colCategoria" prefWidth="90.0" text="Categoría" />
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
